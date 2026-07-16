@@ -118,5 +118,21 @@ describe('persistent', () => {
 
       expect(localStorage.getItem('state')).toBe(null)
     })
+
+    it('Can be cleared by null', () => {
+      const hub = new Hub()
+      const state = () => persistent('state', null)
+
+      hub.use(() => {
+        set(state, '')
+        expect(get(state)).toBe('')
+        expect(localStorage.getItem('state')).toBe('')
+
+        set(state, null)
+        expect(get(state)).toBe(null)
+        expect(localStorage.getItem('state')).toBe(null)
+        expect(localStorage.length).toBe(0)
+      })
+    })
   })
 })
