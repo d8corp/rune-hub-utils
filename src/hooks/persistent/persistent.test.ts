@@ -135,4 +135,27 @@ describe('persistent', () => {
       })
     })
   })
+
+  describe('Options', () => {
+    it('Should keep changed initial', () => {
+      const hub = new Hub()
+
+      const state = () => persistent('state', false, {
+        decode: v => v === '+',
+        encode: v => v ? '+' : '-',
+      })
+
+      hub.use(() => {
+        expect(get(state)).toBe(false)
+
+        set(state, true)
+        expect(get(state)).toBe(true)
+        expect(localStorage.getItem('state')).toBe('+')
+
+        set(state, false)
+        expect(get(state)).toBe(false)
+        expect(localStorage.getItem('state')).toBe('-')
+      })
+    })
+  })
 })
