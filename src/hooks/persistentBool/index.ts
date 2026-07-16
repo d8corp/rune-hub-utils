@@ -1,2 +1,1 @@
-export * from './persistent'
 export * from './persistentBool'

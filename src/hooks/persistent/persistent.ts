@@ -14,21 +14,21 @@ export interface PersistentParams<T> {
 const asIs = <T> (v: T): T => v
 
 export function persistent (key: string): string | null
-export function persistent<T, I = T> (key: string, init: I, opt: PersistentParams<T | I>): I | (unknown extends T ? string : T)
-export function persistent<T, I extends string | null = T extends string | null ? T : string | null> (key: string, init: I, opt?: Partial<PersistentParams<T | I>>): I | (unknown extends T ? string : T)
+export function persistent<T, I = T> (key: string, initial: I, opt: PersistentParams<T | I>): I | (unknown extends T ? string : T)
+export function persistent<T, I extends string | null = T extends string | null ? T : string | null> (key: string, initial: I, opt?: Partial<PersistentParams<T | I>>): I | (unknown extends T ? string : T)
 
-export function persistent (key: string, init: any = null, opt?: Partial<PersistentParams<any>>) {
+export function persistent (key: string, initial: any = null, opt?: Partial<PersistentParams<any>>) {
   const ctx = (Hub.cur ?? Hub.root).ctx as Slot
-  if (!ctx) return init
+  if (!ctx) return initial
 
   const storage = opt?.storage ?? (typeof localStorage !== 'undefined' ? localStorage : undefined)
-  if (!storage) return init
+  if (!storage) return initial
 
   const encode = (opt?.encode ?? asIs)
   const decode = (opt?.decode ?? asIs)
 
   const initDecode = (value: string | null = null) => {
-    return value === null ? init : decode(value)
+    return value === null ? initial : decode(value)
   }
 
   const setFromStorage = (value: string | null) => {
