@@ -72,10 +72,13 @@ export function persistent (key: string, init: any = null, opt?: Partial<Persist
         window.addEventListener('pageshow', restore)
       })
 
-      ctx.on('down', () => {
+      const clear = () => {
         window.removeEventListener('storage', listener)
         window.removeEventListener('pageshow', restore)
-      })
+      }
+
+      ctx.on('down', clear)
+      ctx.on('destroy', clear)
     }
   }
 
