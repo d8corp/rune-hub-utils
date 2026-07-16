@@ -14,8 +14,8 @@ export interface PersistentParams<T> {
 const asIs = <T> (v: T): T => v
 
 export function persistent (key: string): string | null
-export function persistent<T, I> (key: string, init: I, opt: PersistentParams<T | I>): I | (unknown extends T ? string : T)
-export function persistent<T, I extends string | null> (key: string, init: I, opt?: Partial<PersistentParams<T | I>>): I | (unknown extends T ? string : T)
+export function persistent<T, I = T> (key: string, init: I, opt: PersistentParams<T | I>): I | (unknown extends T ? string : T)
+export function persistent<T, I extends string | null = T extends string | null ? T : string | null> (key: string, init: I, opt?: Partial<PersistentParams<T | I>>): I | (unknown extends T ? string : T)
 
 export function persistent (key: string, init: any = null, opt?: Partial<PersistentParams<any>>) {
   const ctx = (Hub.cur ?? Hub.root).ctx as Slot

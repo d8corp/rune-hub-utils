@@ -34,72 +34,89 @@ describe('persistent', () => {
     })
   })
 
-  it('Should return initial value', () => {
-    const hub = new Hub()
-    const state = () => persistent('state', '')
+  describe('Initial value', () => {
+    it('Should return initial value', () => {
+      const hub = new Hub()
+      const state = () => persistent('state', 'default')
 
-    hub.use(() => {
-      expect(get(state)).toBe('')
-    })
-  })
-
-  it('Should return initial value for multiplay states', () => {
-    const hub = new Hub()
-    const state1 = () => persistent('state', '')
-    const state2 = () => persistent('state', null)
-
-    hub.use(() => {
-      expect(get(state1)).toBe('')
-      expect(get(state2)).toBe(null)
-    })
-  })
-
-  it('Should change the storage', () => {
-    const hub = new Hub()
-    const state = () => persistent('state', '')
-
-    hub.use(() => {
-      set(state, 'foo')
-
-      expect(get(state)).toBe('foo')
+      hub.use(() => {
+        expect(get(state)).toBe('default')
+      })
     })
 
-    expect(localStorage.getItem('state')).toBe('foo')
-  })
+    it('Should keep initial value', () => {
+      const hub = new Hub()
+      const state = () => persistent<'default' | 'foo'>('state', 'default')
 
-  it('Should init from storage', () => {
-    const hub = new Hub()
-    const state = () => persistent('state', '')
+      hub.use(() => {
+        set(state, 'foo')
+        expect(get(state)).toBe('foo')
+        expect(localStorage.getItem('state')).toBe('foo')
 
-    localStorage.setItem('state', 'foo')
-
-    hub.use(() => {
-      expect(get(state)).toBe('foo')
-    })
-  })
-
-  it('Should keep set initial value in storage', () => {
-    const hub = new Hub()
-    const state = () => persistent('state', '')
-
-    hub.use(() => {
-      set(state, 'foo')
-      set(state, '')
-      expect(get(state)).toBe('')
+        set(state, 'default')
+        expect(get(state)).toBe('default')
+        expect(localStorage.getItem('state')).toBe('default')
+      })
     })
 
-    expect(localStorage.getItem('state')).toBe('')
-  })
+    it('Should return initial value for multiplay states', () => {
+      const hub = new Hub()
+      const state1 = () => persistent('state', '')
+      const state2 = () => persistent('state', null)
 
-  it('Should not keep unchanged initial value in storage', () => {
-    const hub = new Hub()
-    const state = () => persistent('state', '')
-
-    hub.use(() => {
-      set(state, '')
-      expect(get(state)).toBe('')
+      hub.use(() => {
+        expect(get(state1)).toBe('')
+        expect(get(state2)).toBe(null)
+      })
     })
 
-    expect(localStorage.getItem('state')).toBe(null)
+    it('Should change the storage', () => {
+      const hub = new Hub()
+      const state = () => persistent('state', '')
+
+      hub.use(() => {
+        set(state, 'foo')
+
+        expect(get(state)).toBe('foo')
+      })
+
+      expect(localStorage.getItem('state')).toBe('foo')
+    })
+
+    it('Should init from storage', () => {
+      const hub = new Hub()
+      const state = () => persistent('state', '')
+
+      localStorage.setItem('state', 'foo')
+
+      hub.use(() => {
+        expect(get(state)).toBe('foo')
+      })
+    })
+
+    it('Should keep set initial value in storage', () => {
+      const hub = new Hub()
+      const state = () => persistent('state', '')
+
+      hub.use(() => {
+        set(state, 'foo')
+        set(state, '')
+        expect(get(state)).toBe('')
+      })
+
+      expect(localStorage.getItem('state')).toBe('')
+    })
+
+    it('Should not keep unchanged initial value in storage', () => {
+      const hub = new Hub()
+      const state = () => persistent('state', '')
+
+      hub.use(() => {
+        set(state, '')
+        expect(get(state)).toBe('')
+      })
+
+      expect(localStorage.getItem('state')).toBe(null)
+    })
   })
 })
