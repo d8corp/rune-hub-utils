@@ -140,6 +140,8 @@ describe('persistentBool', () => {
 
       expect(log).toEqual([true])
 
+      localStorage.setItem('state', '-')
+
       const event = new StorageEvent('storage', {
         key: 'state',
         newValue: '-',
@@ -149,7 +151,6 @@ describe('persistentBool', () => {
       })
 
       window.dispatchEvent(event)
-      localStorage.setItem('state', '-')
 
       expect(log).toEqual([true, false])
     })
