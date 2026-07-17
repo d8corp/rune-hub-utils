@@ -22,8 +22,6 @@ export function persistent (key: string, initial: any = null, opt?: Partial<Pers
   const ctx = (Hub.cur ?? Hub.root).ctx as Slot
   if (!ctx) return initial
 
-  const storage = opt?.storage ?? (typeof localStorage !== 'undefined' ? localStorage : {})
-
   const encode = (opt?.encode ?? asIs)
   const decode = (opt?.decode ?? asIs)
 
@@ -31,7 +29,7 @@ export function persistent (key: string, initial: any = null, opt?: Partial<Pers
     return value === null ? initial : decode(value)
   }
 
-  const persistentSlot = slot(persistentRune(key, storage))
+  const persistentSlot = slot(persistentRune(key, opt?.storage))
 
   if (!ctx.inited) {
     ctx.on('change', () => {

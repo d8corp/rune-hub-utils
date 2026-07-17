@@ -5,7 +5,10 @@ export type PersistentStorage = Record<string, string | null>
 
 export const persistentStorageMap = new Map<PersistentStorage, Record<string, Rune<string | null>>>()
 
-export function persistentRune (key: string, storage: PersistentStorage): Rune<string | null> {
+export function persistentRune (
+  key: string,
+  storage: PersistentStorage = typeof localStorage !== 'undefined' ? localStorage : {},
+): Rune<string | null> {
   let map = persistentStorageMap.get(storage)
 
   if (!map) {
