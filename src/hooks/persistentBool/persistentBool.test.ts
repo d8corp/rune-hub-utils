@@ -121,37 +121,61 @@ describe('persistentBool', () => {
         })
       })
     })
+  })
 
-    describe('listener', () => {
-      it('Should listen by default', () => {
-        const hub = new Hub()
-        const log: boolean[] = []
+  describe('listener', () => {
+    it('Should listen storage event', () => {
+      const hub = new Hub()
+      const log: boolean[] = []
 
-        const state = () => persistentBool('state', false)
+      const state = () => persistentBool('state', false)
 
-        localStorage.setItem('state', '+')
+      localStorage.setItem('state', '+')
 
-        hub.use(() => {
-          on(() => {
-            log.push(get(state))
-          })
+      hub.use(() => {
+        on(() => {
+          log.push(get(state))
         })
-
-        expect(log).toEqual([true])
-
-        const event = new StorageEvent('storage', {
-          key: 'state',
-          newValue: '-',
-          oldValue: '+',
-          url: window.location.href,
-          storageArea: localStorage,
-        })
-
-        window.dispatchEvent(event)
-        localStorage.setItem('state', '-')
-
-        expect(log).toEqual([true, false])
       })
+
+      expect(log).toEqual([true])
+
+      const event = new StorageEvent('storage', {
+        key: 'state',
+        newValue: '-',
+        oldValue: '+',
+        url: window.location.href,
+        storageArea: localStorage,
+      })
+
+      window.dispatchEvent(event)
+      localStorage.setItem('state', '-')
+
+      expect(log).toEqual([true, false])
+    })
+
+    it('Should listen pageshow event', () => {
+      const hub = new Hub()
+      const log: boolean[] = []
+
+      const state = () => persistentBool('state', false)
+
+      localStorage.setItem('state', '+')
+
+      hub.use(() => {
+        on(() => {
+          log.push(get(state))
+        })
+      })
+
+      expect(log).toEqual([true])
+
+      localStorage.setItem('state', '-')
+
+      const event = new Event('pageshow')
+      window.dispatchEvent(event)
+
+      expect(log).toEqual([true, false])
     })
   })
 })
