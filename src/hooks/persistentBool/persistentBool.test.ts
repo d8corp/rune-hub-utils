@@ -4,6 +4,7 @@ import { persistentBool } from './persistentBool'
 
 afterEach(() => {
   localStorage.clear()
+  sessionStorage.clear()
 })
 
 describe('persistentBool', () => {

@@ -4,6 +4,7 @@ import { persistent } from './persistent'
 
 afterEach(() => {
   localStorage.clear()
+  sessionStorage.clear()
 })
 
 describe('persistent', () => {

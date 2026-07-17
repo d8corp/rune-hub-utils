@@ -1,26 +1,26 @@
 import { get, Hub, on, set } from 'rune-hub'
 
-import { persistentNum } from './persistentNum'
+import { persistentJSON } from './persistentJSON'
 
 afterEach(() => {
   localStorage.clear()
   sessionStorage.clear()
 })
 
-describe('persistentNum', () => {
+describe('persistentJSON', () => {
   describe('Only keys', () => {
     it('Should return null by default', () => {
       const hub = new Hub()
-      const state = () => persistentNum('state')
+      const state = () => persistentJSON('state')
 
       hub.use(() => {
         expect(get(state)).toBe(null)
       })
     })
 
-    it('Can be cleared by null', () => {
+    it('Should not be cleared without clearable', () => {
       const hub = new Hub()
-      const state = () => persistentNum('state')
+      const state = () => persistentJSON('state')
 
       hub.use(() => {
         set(state, 1)
@@ -29,8 +29,7 @@ describe('persistentNum', () => {
 
         set(state, null)
         expect(get(state)).toBe(null)
-        expect(localStorage.getItem('state')).toBe(null)
-        expect(localStorage.length).toBe(0)
+        expect(localStorage.getItem('state')).toBe('null')
       })
     })
   })
@@ -39,16 +38,16 @@ describe('persistentNum', () => {
     describe('null', () => {
       it('Should return null by default', () => {
         const hub = new Hub()
-        const state = () => persistentNum('state', null)
+        const state = () => persistentJSON('state', null)
 
         hub.use(() => {
           expect(get(state)).toBe(null)
         })
       })
 
-      it('Can be cleared by null', () => {
+      it('Should not be cleared without clearable', () => {
         const hub = new Hub()
-        const state = () => persistentNum('state', null)
+        const state = () => persistentJSON<any>('state', null)
 
         hub.use(() => {
           set(state, 1)
@@ -57,8 +56,7 @@ describe('persistentNum', () => {
 
           set(state, null)
           expect(get(state)).toBe(null)
-          expect(localStorage.getItem('state')).toBe(null)
-          expect(localStorage.length).toBe(0)
+          expect(localStorage.getItem('state')).toBe('null')
         })
       })
     })
@@ -66,10 +64,10 @@ describe('persistentNum', () => {
     describe('string', () => {
       it('Should return initial state by default', () => {
         const hub = new Hub()
-        const state = () => persistentNum('state', 1)
+        const state = () => persistentJSON('state', '')
 
         hub.use(() => {
-          expect(get(state)).toBe(1)
+          expect(get(state)).toBe('')
         })
       })
     })
@@ -80,7 +78,7 @@ describe('persistentNum', () => {
       it('Should change the storage', () => {
         const hub = new Hub()
 
-        const state = () => persistentNum('state', 1, {
+        const state = () => persistentJSON('state', 1, {
           storage: sessionStorage,
         })
 
@@ -105,7 +103,7 @@ describe('persistentNum', () => {
       const hub = new Hub()
       const log: number[] = []
 
-      const state = () => persistentNum('state', 1)
+      const state = () => persistentJSON('state', 1)
 
       localStorage.setItem('state', '2')
 
@@ -136,7 +134,7 @@ describe('persistentNum', () => {
       const hub = new Hub()
       const log: number[] = []
 
-      const state = () => persistentNum('state', 1)
+      const state = () => persistentJSON('state', 1)
 
       localStorage.setItem('state', '2')
 
