@@ -1,4 +1,4 @@
-import { get, Hub, set } from 'rune-hub'
+import { get, Hub, on, set } from 'rune-hub'
 
 import { persistent } from './persistent'
 
@@ -31,6 +31,33 @@ describe('persistent', () => {
         expect(localStorage.getItem('state')).toBe(null)
         expect(localStorage.length).toBe(0)
       })
+    })
+
+    it('Should sync values with the same key', () => {
+      const hub = new Hub()
+
+      const log1: any[] = []
+      const log2: any[] = []
+
+      const state1 = () => persistent('state')
+      const state2 = () => persistent('state')
+
+      hub.use(() => {
+        on(() => {
+          log1.push(get(state1))
+        })
+
+        on(() => {
+          log2.push(get(state2))
+        })
+
+        set(state1, 'foo')
+
+        expect(get(state2)).toBe('foo')
+      })
+
+      expect(log1).toEqual([null, 'foo'])
+      expect(log2).toEqual([null, 'foo'])
     })
   })
 

@@ -1,12 +1,18 @@
 import type { PersistentParams } from '../persistent'
 import { persistent } from '../persistent'
 
-export type PersistentBoolParams<T extends boolean | null = boolean | null> = Omit<PersistentParams<T>, 'decode' | 'encode'>
+export interface PersistentBoolParams<T extends boolean | null = boolean | null> extends Omit<PersistentParams<T>, 'decode' | 'encode'> {
+  true?: string
+  false?: string
+}
 
-export function persistentBool<T extends boolean | null = boolean | null> (key: string, initial?: T, opt?: PersistentBoolParams<T>): T extends null ? null | boolean : boolean {
+export function persistentBool<T extends boolean | null = boolean | null> (key: string, initial?: T, params?: PersistentBoolParams<T>): T extends null ? null | boolean : boolean {
+  const positive = params?.true ?? '+'
+  const negative = params?.false ?? '-'
+
   return persistent(key, initial as T, {
-    ...opt,
-    decode: v => v === '+',
-    encode: v => v === null ? null : v ? '+' : '-',
+    ...params,
+    decode: v => v === positive,
+    encode: v => v === null ? null : v ? positive : negative,
   }) as T extends null ? null | boolean : boolean
 }
