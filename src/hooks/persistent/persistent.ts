@@ -22,7 +22,6 @@ export function persistent (key: string, initial: any = null, params?: Partial<P
   const ctx = (Hub.cur ?? Hub.root).ctx as Slot
   if (!ctx) return initial
 
-  const encode = (params?.encode ?? asIs)
   const decode = (params?.decode ?? asIs)
 
   const initDecode = (value: string | null = null) => {
@@ -31,11 +30,28 @@ export function persistent (key: string, initial: any = null, params?: Partial<P
 
   const persistentSlot = slot(persistentRune(key, params?.storage))
 
+  let result = persistentSlot.value
+
   if (!ctx.inited) {
+    const encode = (params?.encode ?? asIs)
+
     ctx.on('change', () => {
-      persistentSlot.set(encode(ctx.cur))
+      result = encode(ctx.cur)
+      persistentSlot.set(result)
+    })
+
+    ctx.on('get', () => {
+      if (!ctx.up) {
+        const value = persistentSlot.raw
+
+        if (result !== value) {
+          result = value
+          ctx.prev = ctx.cur
+          ctx.cur = initDecode(result)
+        }
+      }
     })
   }
 
-  return initDecode(persistentSlot.value)
+  return initDecode(result)
 }

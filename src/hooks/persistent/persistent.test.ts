@@ -186,4 +186,81 @@ describe('persistent', () => {
       })
     })
   })
+
+  describe('listener', () => {
+    it('Should listen storage event', () => {
+      const hub = new Hub()
+      const log: string[] = []
+
+      const state = () => persistent('state', '1')
+
+      localStorage.setItem('state', '2')
+
+      hub.use(() => {
+        on(() => {
+          log.push(get(state))
+        })
+      })
+
+      expect(log).toEqual(['2'])
+
+      localStorage.setItem('state', '1')
+
+      const event = new StorageEvent('storage', {
+        key: 'state',
+        newValue: '1',
+        oldValue: '2',
+        url: window.location.href,
+        storageArea: localStorage,
+      })
+
+      window.dispatchEvent(event)
+
+      expect(log).toEqual(['2', '1'])
+    })
+
+    it('Should listen pageshow event', () => {
+      const hub = new Hub()
+      const log: string[] = []
+
+      const state = () => persistent('state', '1')
+
+      localStorage.setItem('state', '2')
+
+      hub.use(() => {
+        on(() => {
+          log.push(get(state))
+        })
+      })
+
+      expect(log).toEqual(['2'])
+
+      localStorage.setItem('state', '1')
+
+      const event = new Event('pageshow')
+      window.dispatchEvent(event)
+
+      expect(log).toEqual(['2', '1'])
+    })
+
+    it('Should return right value without subscribers', () => {
+      const hub = new Hub()
+      const log: string[] = []
+
+      const state = () => persistent('state', '1')
+
+      localStorage.setItem('state', '2')
+
+      hub.use(() => on(() => {
+        log.push(get(state))
+      }))()
+
+      expect(log).toEqual(['2'])
+
+      localStorage.setItem('state', '1')
+
+      expect(hub.use(() => get(state))).toBe('1')
+      expect(log).toEqual(['2'])
+    })
+  })
 })
