@@ -150,6 +150,21 @@ set(isEnabled, true)
 console.log(localStorage.getItem('isEnabled')) // '+'
 ```
 
+For `string | null` or `string` state types, you can optionally provide `encode` and `decode` to override the default conversion logic.
+For example, you can make the state clear from storage when set back to the initial value:
+
+```ts
+const lang = () => persistent('lang', '', {
+  encode: v => v ? v : null
+})
+
+set(lang, 'en')
+console.log(localStorage.getItem('lang')) // 'en'
+
+set(lang, '')
+console.log(localStorage.getItem('lang')) // null (storage is clean)
+```
+
 ### persistentBool
 ###### [🏠︎](#index) / [Hooks](#hooks) / persistentBool [↑](#persistent) [↓](#persistentnum)
 
