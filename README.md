@@ -103,15 +103,15 @@ In this mode, you cannot clear the state by setting it to the initial value — 
 This is useful when you always want a valid string state without null checks.
 
 ```ts
-const search = () => persistent('search', '')
+const lang = () => persistent('lang', 'en')
 
-console.log(get(search)) // '' initially
+console.log(get(lang)) // 'en' initially
 
-set(search, 'Something')
-console.log(get(search)) // 'Something'
+set(lang, 'ru')
+console.log(get(lang)) // 'ru'
 
-set(search, '')
-console.log(get(search)) // '' (storage is not clean)
+set(lang, 'en')
+console.log(get(lang)) // 'en' (storage is not clean)
 ```
 
 This approach also allows you to safely change the default value in the future.
@@ -126,10 +126,12 @@ type Theme = 'dark' | 'light' | 'auto'
 const theme = () => persistent<Theme>('search', 'auto')
 ```
 
-**Using sessionStorage:**
+By default, `persistent` uses `localStorage`, which persists data permanently across browser sessions and tabs.
+You can use `sessionStorage` instead for temporary data that only exists within the current tab and is cleared when the tab closes.
+Also, you can use simple/proxy object as storage, the storage changes by set or delete value (`storage[key] = value` or `delete storage[key]`).
 
 ```ts
-const tempData = () => persistent('temp', '', {
+const chatDraft = () => persistent('chatDraft', '', {
   storage: sessionStorage
 })
 ```
