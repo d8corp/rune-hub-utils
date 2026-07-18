@@ -136,7 +136,9 @@ const chatDraft = () => persistent('chatDraft', '', {
 })
 ```
 
-**With custom encode/decode:**
+When your state type is not `string | null`, you must provide `encode` and `decode` functions to convert between your type and string storage format.
+
+The `encode` function converts your state value to a string (or `null` to clear storage), while `decode` converts the stored string back to your state type.
 
 ```ts
 const isEnabled = () => persistent('isEnabled', false, {
