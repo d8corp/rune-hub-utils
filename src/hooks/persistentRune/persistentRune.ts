@@ -44,7 +44,7 @@ export function persistentRune (
 
         if (typeof window !== 'undefined') {
           const listener = (e: StorageEvent) => {
-            if (e.key !== key) return
+            if (e.key !== key || e.storageArea !== storage) return
             ctx.set(e.newValue)
           }
 

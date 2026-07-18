@@ -262,5 +262,43 @@ describe('persistent', () => {
       expect(hub.use(() => get(state))).toBe('1')
       expect(log).toEqual(['2'])
     })
+
+    it('Should listen only the same storage change event', () => {
+      const hub = new Hub()
+      const localLog: string[] = []
+      const sessionLog: string[] = []
+
+      const local = () => persistent('state', '1')
+
+      const session = () => persistent('state', '1', {
+        storage: sessionStorage,
+      })
+
+      hub.use(() => on(() => {
+        localLog.push(get(local))
+      }))
+
+      hub.use(() => on(() => {
+        sessionLog.push(get(session))
+      }))
+
+      expect(localLog).toEqual(['1'])
+      expect(sessionLog).toEqual(['1'])
+
+      localStorage.setItem('state', '2')
+
+      const event = new StorageEvent('storage', {
+        key: 'state',
+        newValue: '2',
+        oldValue: '1',
+        url: window.location.href,
+        storageArea: localStorage,
+      })
+
+      window.dispatchEvent(event)
+
+      expect(localLog).toEqual(['1', '2'])
+      expect(sessionLog).toEqual(['1'])
+    })
   })
 })
