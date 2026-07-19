@@ -55,7 +55,10 @@ The library includes specialized hooks for browser storage synchronization with 
 ## Install
 ###### [🏠︎](#index) / Install [↓](#hooks)
 
-**Requires [rune-hub 1.0+](https://www.npmjs.com/package/rune-hub).**
+**Requires [rune-hub 1.0+](https://www.npmjs.com/package/rune-hub) as a peer dependency.**
+
+These utilities are designed to work with rune-hub's reactive state management system.
+Make sure to install both packages:
 
 ```shell
 npm i rune-hub @rune-hub/utils
