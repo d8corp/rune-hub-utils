@@ -48,7 +48,7 @@ The library includes specialized hooks for browser storage synchronization with 
 
 ## Index
 
-<sup>**[ [Install](#install) ]**</sup>
+<sup>**[ [Install](#install) ]**</sup>  
 <sup>**[ [Hooks](#hooks) ]** [persistent](#persistent) • [persistentBool](#persistentbool) • [persistentNum](#persistentnum) • [persistentJSON](#persistentjson)</sup>  
 <sup>**[ [Links](#links) ]**</sup>
 
