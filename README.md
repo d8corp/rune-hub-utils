@@ -172,19 +172,47 @@ console.log(localStorage.getItem('lang')) // null (storage is clean)
 ###### [🏠︎](#index) / [Hooks](#hooks) / persistentBool [↑](#persistent) [↓](#persistentnum)
 
 Creates a persistent Rune for boolean values with convenient string encoding (`+` for true, `-` for false by default).
+Automatically loads the initial value from storage and saves changes back to it.
+
+The simplest form accepts only a `key` parameter and works with nullable boolean values.
+The Rune returns `boolean | null`.
+If there's no value in storage, you get `null`, otherwise you get the decoded boolean value.
+When you set the value to `null`, it clears the storage entry completely.
 
 ```ts
 import { get, set } from 'rune-hub'
 import { persistentBool } from '@rune-hub/utils'
 
-const isDarkMode = () => persistentBool('darkMode', false)
+const consent = () => persistentBool('consent')
 
-console.log(get(isDarkMode)) // false
-set(isDarkMode, true)
-console.log(localStorage.getItem('darkMode')) // '+'
+console.log(get(consent)) // null initially
+
+set(consent, true)
+console.log(get(consent)) // true
+console.log(localStorage.getItem('consent')) // '+' (encoded)
+
+set(consent, null)
+console.log(get(consent)) // null (storage is clean)
 ```
 
-**With custom encoding:**
+When you provide an `initial` value, it serves as a fallback when storage is empty.
+When you provide a boolean as the `initial` value, the Rune becomes strictly typed and returns `boolean` (not nullable).
+In this mode, you cannot clear the state by setting it to `null` — the storage will keep the entry with the encoded value.
+This is useful when you always want a valid boolean state without null checks.
+
+```ts
+const isDarkMode = () => persistentBool('darkMode', false)
+
+console.log(get(isDarkMode)) // false initially
+
+set(isDarkMode, true)
+console.log(localStorage.getItem('darkMode')) // '+' (true encoded)
+
+set(isDarkMode, false)
+console.log(localStorage.getItem('darkMode')) // '-' (false encoded)
+```
+
+You can customize the encoding by specifying what strings represent `true` and `false`:
 
 ```ts
 const isAccepted = () => persistentBool('accepted', false, {
@@ -196,7 +224,9 @@ set(isAccepted, true)
 console.log(localStorage.getItem('accepted')) // 'yes'
 ```
 
-**With sessionStorage:**
+By default, `persistentBool` uses `localStorage` for permanent persistence across browser sessions.
+You can use `sessionStorage` instead for temporary data that only exists within the current tab and is cleared when the tab closes.
+You can also use a simple/proxy object as storage.
 
 ```ts
 const isExpanded = () => persistentBool('expanded', false, {
@@ -204,33 +234,55 @@ const isExpanded = () => persistentBool('expanded', false, {
 })
 ```
 
-**Nullable boolean:**
-
-```ts
-const consent = () => persistentBool('consent')
-
-console.log(get(consent)) // null initially
-set(consent, true)
-set(consent, null) // Clears from storage
-```
-
 ### persistentNum
 ###### [🏠︎](#index) / [Hooks](#hooks) / persistentNum [↑](#persistentbool) [↓](#persistentjson)
 
-Creates a persistent Rune for numeric values with automatic number parsing.
+Creates a persistent Rune for numeric values with automatic number parsing and string conversion.
+Automatically loads the initial value from storage and saves changes back to it.
+
+The simplest form accepts only a `key` parameter and works with nullable numeric values.
+The Rune returns `number | null`.
+
+If there's no value in storage, you get `null`, otherwise you get the parsed number.
+When you set the value to `null`, it clears the storage entry completely.
 
 ```ts
 import { get, set } from 'rune-hub'
 import { persistentNum } from '@rune-hub/utils'
 
-const count = () => persistentNum('count', 0)
+const score = () => persistentNum('score')
 
-console.log(get(count)) // 0
-set(count, 42)
-console.log(localStorage.getItem('count')) // '42'
+console.log(get(score)) // null initially
+
+set(score, 100)
+console.log(get(score)) // 100
+console.log(localStorage.getItem('score')) // '100'
+
+set(score, null)
+console.log(get(score)) // null (storage is clean)
+console.log(localStorage.getItem('score')) // null
 ```
 
-**With sessionStorage:**
+When you provide an `initial` value, it serves as a fallback when storage is empty.
+When you provide a number as the `initial` value, the Rune becomes strictly typed and returns `number` (not nullable).
+In this mode, you cannot clear the state by setting it to `null` — the storage will keep the entry with that value.
+This is useful when you always want a valid numeric state without null checks.
+
+```ts
+const count = () => persistentNum('count', 0)
+
+console.log(get(count)) // 0 initially
+
+set(count, 42)
+console.log(localStorage.getItem('count')) // '42'
+
+set(count, 0)
+console.log(localStorage.getItem('count')) // '0' (storage is not clean)
+```
+
+By default, `persistentNum` uses `localStorage` for permanent persistence across browser sessions.
+You can use `sessionStorage` instead for temporary data that only exists within the current tab and is cleared when the tab closes.
+You can also use a simple/proxy object as storage.
 
 ```ts
 const tempCounter = () => persistentNum('counter', 0, {
@@ -238,20 +290,17 @@ const tempCounter = () => persistentNum('counter', 0, {
 })
 ```
 
-**Nullable number:**
-
-```ts
-const score = () => persistentNum('score')
-
-console.log(get(score)) // null initially
-set(score, 100)
-set(score, null) // Clears from storage
-```
-
 ### persistentJSON
 ###### [🏠︎](#index) / [Hooks](#hooks) / persistentJSON [↑](#persistentnum)
 
 Creates a persistent Rune with automatic JSON serialization/deserialization for complex data structures.
+Automatically loads the initial value from storage and saves changes back to it.
+
+The simplest form accepts only a `key` parameter and works with nullable values.
+The Rune returns `T | null` where `T` is your data type.
+
+If there's no value in storage, you get `null`, otherwise you get the parsed object.
+When you set the value to `null`, it stores the string `"null"` in storage (unlike other persistent hooks).
 
 ```ts
 import { get, set } from 'rune-hub'
@@ -262,31 +311,57 @@ interface User {
   age: number
 }
 
-const user = () => persistentJSON<User>('user', { name: 'John', age: 30 })
+const user = () => persistentJSON<User>('user')
 
+console.log(get(user)) // null initially
+
+set(user, { name: 'John', age: 30 })
 console.log(get(user)) // { name: 'John', age: 30 }
-set(user, { name: 'Jane', age: 25 })
-console.log(localStorage.getItem('user')) // '{"name":"Jane","age":25}'
+console.log(localStorage.getItem('user')) // '{"name":"John","age":30}'
+
+set(user, null)
+console.log(localStorage.getItem('user')) // '"null"' (stored as string)
 ```
 
-**With arrays:**
+When you provide an `initial` value, it serves as a fallback when storage is empty.
+When you provide an object as the `initial` value, the Rune becomes strictly typed and returns your type `T` (not nullable).
+In this mode, you cannot clear the state by setting it to `null` — the storage will keep the entry with the encoded value.
+This is useful when you always want a valid object state without null checks.
+
+```ts
+import { get, set } from 'rune-hub'
+import { persistentJSON } from '@rune-hub/utils'
+
+const user = () => persistentJSON('user', { name: 'John', age: 30 })
+
+console.log(get(user)) // { name: 'John', age: 30 } initially
+
+set(user, { name: 'Jane', age: 25 })
+console.log(localStorage.getItem('user')) // '{"name":"Jane","age":25}'
+
+set(user, { name: 'John', age: 30 })
+console.log(localStorage.getItem('user')) // '{"name":"John","age":30}' (storage is not clean)
+```
+
+You can also use `persistentJSON` with arrays:
 
 ```ts
 const items = () => persistentJSON<string[]>('items', [])
 
 set(items, ['apple', 'banana', 'orange'])
 console.log(get(items)) // ['apple', 'banana', 'orange']
+console.log(localStorage.getItem('items')) // '["apple","banana","orange"]'
 ```
 
-**With sessionStorage:**
+By default, `persistentJSON` uses `localStorage` for permanent persistence across browser sessions.
+You can use `sessionStorage` instead for temporary data that only exists within the current tab and is cleared when the tab closes.
+You can also use a simple/proxy object as storage.
 
 ```ts
 const tempData = () => persistentJSON<any>('data', null, {
   storage: sessionStorage
 })
 ```
-
-**Note:** Unlike other persistent hooks, `persistentJSON` stores `null` as `"null"` string in storage rather than clearing the entry.
 
 ## Links
 ###### [🏠︎](#index) / Links [↑](#hooks)
