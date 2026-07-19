@@ -173,8 +173,6 @@ console.log(localStorage.getItem('lang')) // null (storage is clean)
 
 Creates a persistent Rune for boolean values with convenient string encoding (`+` for true, `-` for false by default).
 
-The simplest form accepts only a `key` parameter and works directly with string values. The Rune returns `string | null`, automatically loading any existing value from localStorage. When you set the value to `null`, it clears the storage entry completely. This approach provides direct one-to-one mapping between your state and storage: if there's no value in storage, you get `null`, otherwise you get the exact string stored.
-
 ```ts
 import { get, set } from 'rune-hub'
 import { persistentBool } from '@rune-hub/utils'
@@ -221,8 +219,6 @@ set(consent, null) // Clears from storage
 
 Creates a persistent Rune for numeric values with automatic number parsing.
 
-The simplest form accepts only a `key` parameter and works directly with string values. The Rune returns `string | null`, automatically loading any existing value from localStorage. When you set the value to `null`, it clears the storage entry completely. This approach provides direct one-to-one mapping between your state and storage: if there's no value in storage, you get `null`, otherwise you get the exact string stored.
-
 ```ts
 import { get, set } from 'rune-hub'
 import { persistentNum } from '@rune-hub/utils'
@@ -256,8 +252,6 @@ set(score, null) // Clears from storage
 ###### [🏠︎](#index) / [Hooks](#hooks) / persistentJSON [↑](#persistentnum)
 
 Creates a persistent Rune with automatic JSON serialization/deserialization for complex data structures.
-
-The simplest form accepts only a `key` parameter and works directly with string values. The Rune returns `string | null`, automatically loading any existing value from localStorage. When you set the value to `null`, it clears the storage entry completely. This approach provides direct one-to-one mapping between your state and storage: if there's no value in storage, you get `null`, otherwise you get the exact string stored.
 
 ```ts
 import { get, set } from 'rune-hub'
