@@ -55,6 +55,16 @@ export interface PersistentBoolParams<T extends boolean | null = boolean | null>
  * set(isEnabled, true)
  * console.log(localStorage.getItem('isEnabled')) // 'enabled'
  * ```
+ *
+ * @example Usage with custom storage
+ * ```ts
+ * const isEnabled = () => persistentBool('isEnabled', false, {
+ *   storage: sessionStorage,
+ * })
+ *
+ * set(isEnabled, true)
+ * console.log(sessionStorage.getItem('isEnabled')) // '+'
+ * ```
  */
 export function persistentBool<T extends boolean | null = boolean | null> (key: string, initial?: T, params?: PersistentBoolParams<T>): T extends null ? null | boolean : boolean {
   const positive = params?.true ?? '+'
