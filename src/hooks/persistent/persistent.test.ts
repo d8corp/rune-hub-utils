@@ -301,4 +301,10 @@ describe('persistent', () => {
       expect(sessionLog).toEqual(['1'])
     })
   })
+
+  describe('Wrong usage', () => {
+    it('Should return initial value without context', () => {
+      expect(persistent('test', 'error')).toBe('error')
+    })
+  })
 })

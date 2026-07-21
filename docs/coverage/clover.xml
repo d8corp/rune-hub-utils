@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1784634373795" clover="3.2.0">
+  <project timestamp="1784634373796" name="All files">
+    <metrics statements="80" coveredstatements="80" conditionals="85" coveredconditionals="79" methods="21" coveredmethods="21" elements="186" coveredelements="180" complexity="0" loc="80" ncloc="80" packages="5" files="7" classes="7"/>
+    <package name="persistent">
+      <metrics statements="25" coveredstatements="25" conditionals="36" coveredconditionals="36" methods="5" coveredmethods="5"/>
+      <file name="index.ts" path="/Users/deight/cantinc/rune-hub-utils/src/hooks/persistent/index.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="3" type="stmt"/>
+      </file>
+      <file name="persistent.ts" path="/Users/deight/cantinc/rune-hub-utils/src/hooks/persistent/persistent.ts">
+        <metrics statements="24" coveredstatements="24" conditionals="36" coveredconditionals="36" methods="5" coveredmethods="5"/>
+        <line num="1" count="4" type="stmt"/>
+        <line num="4" count="4" type="stmt"/>
+        <line num="15" count="87" type="stmt"/>
+        <line num="81" count="4" type="cond" truecount="1" falsecount="0"/>
+        <line num="82" count="136" type="cond" truecount="4" falsecount="0"/>
+        <line num="83" count="136" type="cond" truecount="2" falsecount="0"/>
+        <line num="85" count="135" type="cond" truecount="8" falsecount="0"/>
+        <line num="87" count="135" type="cond" truecount="1" falsecount="0"/>
+        <line num="88" count="136" type="cond" truecount="2" falsecount="0"/>
+        <line num="91" count="135" type="cond" truecount="4" falsecount="0"/>
+        <line num="93" count="135" type="stmt"/>
+        <line num="95" count="135" type="cond" truecount="2" falsecount="0"/>
+        <line num="96" count="44" type="cond" truecount="8" falsecount="0"/>
+        <line num="98" count="44" type="stmt"/>
+        <line num="99" count="83" type="stmt"/>
+        <line num="100" count="83" type="stmt"/>
+        <line num="103" count="44" type="stmt"/>
+        <line num="104" count="71" type="cond" truecount="2" falsecount="0"/>
+        <line num="105" count="52" type="stmt"/>
+        <line num="107" count="52" type="cond" truecount="2" falsecount="0"/>
+        <line num="108" count="1" type="stmt"/>
+        <line num="109" count="1" type="stmt"/>
+        <line num="110" count="1" type="stmt"/>
+        <line num="116" count="135" type="stmt"/>
+      </file>
+    </package>
+    <package name="persistentBool">
+      <metrics statements="7" coveredstatements="7" conditionals="20" coveredconditionals="20" methods="3" coveredmethods="3"/>
+      <file name="persistentBool.ts" path="/Users/deight/cantinc/rune-hub-utils/src/hooks/persistentBool/persistentBool.ts">
+        <metrics statements="7" coveredstatements="7" conditionals="20" coveredconditionals="20" methods="3" coveredmethods="3"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="69" count="1" type="stmt"/>
+        <line num="70" count="26" type="cond" truecount="8" falsecount="0"/>
+        <line num="71" count="26" type="cond" truecount="8" falsecount="0"/>
+        <line num="73" count="26" type="stmt"/>
+        <line num="75" count="16" type="stmt"/>
+        <line num="76" count="14" type="cond" truecount="4" falsecount="0"/>
+      </file>
+    </package>
+    <package name="persistentJSON">
+      <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
+      <file name="persistentJSON.ts" path="/Users/deight/cantinc/rune-hub-utils/src/hooks/persistentJSON/persistentJSON.ts">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="3"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="53" count="1" type="stmt"/>
+        <line num="54" count="22" type="stmt"/>
+        <line num="56" count="15" type="stmt"/>
+        <line num="57" count="13" type="stmt"/>
+      </file>
+    </package>
+    <package name="persistentNum">
+      <metrics statements="4" coveredstatements="4" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+      <file name="persistentNum.ts" path="/Users/deight/cantinc/rune-hub-utils/src/hooks/persistentNum/persistentNum.ts">
+        <metrics statements="4" coveredstatements="4" conditionals="2" coveredconditionals="2" methods="2" coveredmethods="2"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="60" count="1" type="stmt"/>
+        <line num="61" count="22" type="stmt"/>
+        <line num="64" count="12" type="cond" truecount="2" falsecount="0"/>
+      </file>
+    </package>
+    <package name="persistentRune">
+      <metrics statements="39" coveredstatements="39" conditionals="27" coveredconditionals="21" methods="8" coveredmethods="8"/>
+      <file name="index.ts" path="/Users/deight/cantinc/rune-hub-utils/src/hooks/persistentRune/index.ts">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="4" type="stmt"/>
+      </file>
+      <file name="persistentRune.ts" path="/Users/deight/cantinc/rune-hub-utils/src/hooks/persistentRune/persistentRune.ts">
+        <metrics statements="38" coveredstatements="38" conditionals="27" coveredconditionals="21" methods="8" coveredmethods="8"/>
+        <line num="2" count="4" type="stmt"/>
+        <line num="6" count="4" type="stmt"/>
+        <line num="8" count="4" type="stmt"/>
+        <line num="12" count="135" type="stmt"/>
+        <line num="14" count="135" type="cond" truecount="2" falsecount="0"/>
+        <line num="15" count="8" type="stmt"/>
+        <line num="18" count="135" type="cond" truecount="2" falsecount="0"/>
+        <line num="19" count="8" type="stmt"/>
+        <line num="20" count="42" type="cond" truecount="3" falsecount="1"/>
+        <line num="21" count="42" type="cond" truecount="1" falsecount="1"/>
+        <line num="23" count="42" type="cond" truecount="1" falsecount="1"/>
+        <line num="24" count="42" type="stmt"/>
+        <line num="25" count="86" type="stmt"/>
+        <line num="27" count="86" type="cond" truecount="2" falsecount="0"/>
+        <line num="28" count="6" type="stmt"/>
+        <line num="30" count="80" type="stmt"/>
+        <line num="34" count="42" type="stmt"/>
+        <line num="35" count="314" type="cond" truecount="2" falsecount="0"/>
+        <line num="36" count="1" type="stmt"/>
+        <line num="38" count="1" type="cond" truecount="1" falsecount="1"/>
+        <line num="39" count="1" type="stmt"/>
+        <line num="40" count="1" type="stmt"/>
+        <line num="45" count="42" type="cond" truecount="1" falsecount="1"/>
+        <line num="46" count="42" type="stmt"/>
+        <line num="47" count="51" type="cond" truecount="4" falsecount="0"/>
+        <line num="48" count="47" type="stmt"/>
+        <line num="51" count="42" type="stmt"/>
+        <line num="52" count="39" type="stmt"/>
+        <line num="55" count="42" type="stmt"/>
+        <line num="56" count="42" type="stmt"/>
+        <line num="57" count="42" type="stmt"/>
+        <line num="60" count="42" type="stmt"/>
+        <line num="61" count="1" type="stmt"/>
+        <line num="62" count="1" type="stmt"/>
+        <line num="65" count="42" type="stmt"/>
+        <line num="66" count="42" type="stmt"/>
+        <line num="70" count="42" type="stmt"/>
+        <line num="74" count="135" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>
