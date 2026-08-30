@@ -2,17 +2,18 @@ import type { Rune, Slot } from 'rune-hub'
 import { Hub } from 'rune-hub'
 
 export type PersistentStorage = Record<string, string | null>
+export type PersistentStorageMapItem = Record<string, Rune<string | null>>
 
-export const persistentStorageMap = new Map<PersistentStorage, Record<string, Rune<string | null>>>()
+export const persistentStorageMap = new Map<PersistentStorage, PersistentStorageMapItem>()
 
 export function persistentRune (
   key: string,
-  storage: PersistentStorage = typeof localStorage !== 'undefined' ? localStorage : {},
+  storage: PersistentStorage = typeof localStorage !== 'undefined' ? localStorage : Object.create(null),
 ): Rune<string | null> {
   let map = persistentStorageMap.get(storage)
 
   if (!map) {
-    persistentStorageMap.set(storage, map = {})
+    persistentStorageMap.set(storage, map = Object.create(null) as PersistentStorageMapItem)
   }
 
   if (!map[key]) {
