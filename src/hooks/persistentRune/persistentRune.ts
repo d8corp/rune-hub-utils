@@ -18,7 +18,7 @@ export function persistentRune (
 
   if (!map[key]) {
     map[key] = () => {
-      const ctx = (Hub.cur ?? Hub.root).ctx as Slot<string | null>
+      const ctx = Hub.ctx as Slot<string | null>
       if (!ctx) return null
 
       if (!ctx.inited) {

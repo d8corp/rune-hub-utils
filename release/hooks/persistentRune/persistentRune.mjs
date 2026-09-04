@@ -1,15 +1,14 @@
 import { Hub } from 'rune-hub';
 
 const persistentStorageMap = new Map();
-function persistentRune(key, storage = typeof localStorage !== 'undefined' ? localStorage : {}) {
+function persistentRune(key, storage = typeof localStorage !== 'undefined' ? localStorage : Object.create(null)) {
     let map = persistentStorageMap.get(storage);
     if (!map) {
-        persistentStorageMap.set(storage, map = {});
+        persistentStorageMap.set(storage, map = Object.create(null));
     }
     if (!map[key]) {
         map[key] = () => {
-            var _a;
-            const ctx = ((_a = Hub.cur) !== null && _a !== void 0 ? _a : Hub.root).ctx;
+            const ctx = Hub.ctx;
             if (!ctx)
                 return null;
             if (!ctx.inited) {

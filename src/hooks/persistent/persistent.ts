@@ -1,4 +1,4 @@
-import { Hub, type Slot, slot } from 'rune-hub'
+import { Hub, slot } from 'rune-hub'
 
 import type { PersistentStorage } from '../persistentRune'
 import { persistentRune } from '../persistentRune'
@@ -79,7 +79,7 @@ export function persistent<T, I = T> (key: string, initial: I, params: Persisten
 export function persistent<T, I extends string | null = T extends string | null ? T : string | null> (key: string, initial: I, params?: Partial<PersistentParams<T | I>>): I | (unknown extends T ? string : T)
 
 export function persistent (key: string, initial: any = null, params?: Partial<PersistentParams<any>>) {
-  const ctx = (Hub.cur ?? Hub.root).ctx as Slot
+  const ctx = Hub.ctx
   if (!ctx) return initial
 
   const decode = (params?.decode ?? asIs)
