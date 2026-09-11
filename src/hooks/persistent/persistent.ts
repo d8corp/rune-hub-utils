@@ -1,7 +1,7 @@
-import { Hub, slot } from 'rune-hub'
+import { Hub } from 'rune-hub'
 
-import type { PersistentStorage } from '../persistentRune'
-import { persistentRune } from '../persistentRune'
+import type { PersistentStorage } from '../persistentSlot'
+import { persistentSlot } from '../persistentSlot'
 
 export type PersistentDecode<T> = (v: string) => T
 export type PersistentEncode<T> = (v: T) => string | null
@@ -88,21 +88,21 @@ export function persistent (key: string, initial: any = null, params?: Partial<P
     return value === null ? initial : decode(value)
   }
 
-  const persistentSlot = slot(persistentRune(key, params?.storage))
+  const slot = persistentSlot(key, params?.storage)
 
-  let result = persistentSlot.value
+  let result = slot.value
 
   if (!ctx.inited) {
     const encode = (params?.encode ?? asIs)
 
     ctx.on('change', () => {
       result = encode(ctx.cur)
-      persistentSlot.set(result)
+      slot.set(result)
     })
 
     ctx.on('get', () => {
       if (!ctx.up) {
-        const value = persistentSlot.raw
+        const value = slot.raw
 
         if (result !== value) {
           result = value

@@ -16,6 +16,8 @@ describe('persistent', () => {
       hub.use(() => {
         expect(get(state)).toBe(null)
       })
+
+      hub.destroy()
     })
 
     it('Can be cleared by null', () => {
@@ -32,6 +34,8 @@ describe('persistent', () => {
         expect(localStorage.getItem('state')).toBe(null)
         expect(localStorage.length).toBe(0)
       })
+
+      hub.destroy()
     })
 
     it('Should sync values with the same key', () => {
@@ -57,6 +61,8 @@ describe('persistent', () => {
         expect(get(state2)).toBe('foo')
       })
 
+      hub.destroy()
+
       expect(log1).toEqual([null, 'foo'])
       expect(log2).toEqual([null, 'foo'])
     })
@@ -70,6 +76,8 @@ describe('persistent', () => {
       hub.use(() => {
         expect(get(state)).toBe('default')
       })
+
+      hub.destroy()
     })
 
     it('Should keep initial value', () => {
@@ -85,6 +93,8 @@ describe('persistent', () => {
         expect(get(state)).toBe('default')
         expect(localStorage.getItem('state')).toBe('default')
       })
+
+      hub.destroy()
     })
 
     it('Should return initial value for multiplay states', () => {
@@ -96,6 +106,8 @@ describe('persistent', () => {
         expect(get(state1)).toBe('')
         expect(get(state2)).toBe(null)
       })
+
+      hub.destroy()
     })
 
     it('Should change the storage', () => {
@@ -107,6 +119,8 @@ describe('persistent', () => {
 
         expect(get(state)).toBe('foo')
       })
+
+      hub.destroy()
 
       expect(localStorage.getItem('state')).toBe('foo')
     })
@@ -120,6 +134,8 @@ describe('persistent', () => {
       hub.use(() => {
         expect(get(state)).toBe('foo')
       })
+
+      hub.destroy()
     })
 
     it('Should keep set initial value in storage', () => {
@@ -132,6 +148,8 @@ describe('persistent', () => {
         expect(get(state)).toBe('')
       })
 
+      hub.destroy()
+
       expect(localStorage.getItem('state')).toBe('')
     })
 
@@ -143,6 +161,8 @@ describe('persistent', () => {
         set(state, '')
         expect(get(state)).toBe('')
       })
+
+      hub.destroy()
 
       expect(localStorage.getItem('state')).toBe(null)
     })
@@ -161,6 +181,8 @@ describe('persistent', () => {
         expect(localStorage.getItem('state')).toBe(null)
         expect(localStorage.length).toBe(0)
       })
+
+      hub.destroy()
     })
   })
 
@@ -184,6 +206,8 @@ describe('persistent', () => {
         expect(get(state)).toBe(false)
         expect(localStorage.getItem('state')).toBe('-')
       })
+
+      hub.destroy()
     })
   })
 
@@ -217,6 +241,8 @@ describe('persistent', () => {
       window.dispatchEvent(event)
 
       expect(log).toEqual(['2', '1'])
+
+      hub.destroy()
     })
 
     it('Should listen pageshow event', () => {
@@ -241,6 +267,8 @@ describe('persistent', () => {
       window.dispatchEvent(event)
 
       expect(log).toEqual(['2', '1'])
+
+      hub.destroy()
     })
 
     it('Should return right value without subscribers', () => {
@@ -261,6 +289,8 @@ describe('persistent', () => {
 
       expect(hub.use(() => get(state))).toBe('1')
       expect(log).toEqual(['2'])
+
+      hub.destroy()
     })
 
     it('Should listen only the same storage change event', () => {
@@ -299,6 +329,8 @@ describe('persistent', () => {
 
       expect(localLog).toEqual(['1', '2'])
       expect(sessionLog).toEqual(['1'])
+
+      hub.destroy()
     })
   })
 

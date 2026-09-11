@@ -3,8 +3,8 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var runeHub = require('rune-hub');
-require('../persistentRune/index.js');
-var persistentRune = require('../persistentRune/persistentRune.js');
+require('../persistentSlot/index.js');
+var persistentSlot = require('../persistentSlot/persistentSlot.js');
 
 const asIs = (v) => v;
 function persistent(key, initial = null, params) {
@@ -16,17 +16,17 @@ function persistent(key, initial = null, params) {
     const initDecode = (value = null) => {
         return value === null ? initial : decode(value);
     };
-    const persistentSlot = runeHub.slot(persistentRune.persistentRune(key, params === null || params === void 0 ? void 0 : params.storage));
-    let result = persistentSlot.value;
+    const slot = persistentSlot.persistentSlot(key, params === null || params === void 0 ? void 0 : params.storage);
+    let result = slot.value;
     if (!ctx.inited) {
         const encode = ((_b = params === null || params === void 0 ? void 0 : params.encode) !== null && _b !== void 0 ? _b : asIs);
         ctx.on('change', () => {
             result = encode(ctx.cur);
-            persistentSlot.set(result);
+            slot.set(result);
         });
         ctx.on('get', () => {
             if (!ctx.up) {
-                const value = persistentSlot.raw;
+                const value = slot.raw;
                 if (result !== value) {
                     result = value;
                     ctx.prev = ctx.cur;

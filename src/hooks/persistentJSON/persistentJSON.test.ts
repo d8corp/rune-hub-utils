@@ -16,6 +16,8 @@ describe('persistentJSON', () => {
       hub.use(() => {
         expect(get(state)).toBe(null)
       })
+
+      hub.destroy()
     })
 
     it('Should not be cleared without clearable', () => {
@@ -31,6 +33,8 @@ describe('persistentJSON', () => {
         expect(get(state)).toBe(null)
         expect(localStorage.getItem('state')).toBe('null')
       })
+
+      hub.destroy()
     })
   })
 
@@ -43,6 +47,8 @@ describe('persistentJSON', () => {
         hub.use(() => {
           expect(get(state)).toBe(null)
         })
+
+        hub.destroy()
       })
 
       it('Should not be cleared without clearable', () => {
@@ -58,6 +64,8 @@ describe('persistentJSON', () => {
           expect(get(state)).toBe(null)
           expect(localStorage.getItem('state')).toBe('null')
         })
+
+        hub.destroy()
       })
     })
 
@@ -69,6 +77,8 @@ describe('persistentJSON', () => {
         hub.use(() => {
           expect(get(state)).toBe('')
         })
+
+        hub.destroy()
       })
     })
   })
@@ -94,6 +104,8 @@ describe('persistentJSON', () => {
           expect(get(state)).toBe(1)
           expect(sessionStorage.getItem('state')).toBe('1')
         })
+
+        hub.destroy()
       })
     })
   })
@@ -128,6 +140,8 @@ describe('persistentJSON', () => {
       window.dispatchEvent(event)
 
       expect(log).toEqual([2, 1])
+
+      hub.destroy()
     })
 
     it('Should listen pageshow event', () => {
@@ -152,6 +166,8 @@ describe('persistentJSON', () => {
       window.dispatchEvent(event)
 
       expect(log).toEqual([2, 1])
+
+      hub.destroy()
     })
   })
 })

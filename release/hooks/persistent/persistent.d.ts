@@ -1,4 +1,4 @@
-import type { PersistentStorage } from '../persistentRune';
+import type { PersistentStorage } from '../persistentSlot';
 export type PersistentDecode<T> = (v: string) => T;
 export type PersistentEncode<T> = (v: T) => string | null;
 export interface PersistentParams<T> {

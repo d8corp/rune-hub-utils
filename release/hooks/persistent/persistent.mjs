@@ -1,6 +1,6 @@
-import { Hub, slot } from 'rune-hub';
-import '../persistentRune/index.mjs';
-import { persistentRune } from '../persistentRune/persistentRune.mjs';
+import { Hub } from 'rune-hub';
+import '../persistentSlot/index.mjs';
+import { persistentSlot } from '../persistentSlot/persistentSlot.mjs';
 
 const asIs = (v) => v;
 function persistent(key, initial = null, params) {
@@ -12,17 +12,17 @@ function persistent(key, initial = null, params) {
     const initDecode = (value = null) => {
         return value === null ? initial : decode(value);
     };
-    const persistentSlot = slot(persistentRune(key, params === null || params === void 0 ? void 0 : params.storage));
-    let result = persistentSlot.value;
+    const slot = persistentSlot(key, params === null || params === void 0 ? void 0 : params.storage);
+    let result = slot.value;
     if (!ctx.inited) {
         const encode = ((_b = params === null || params === void 0 ? void 0 : params.encode) !== null && _b !== void 0 ? _b : asIs);
         ctx.on('change', () => {
             result = encode(ctx.cur);
-            persistentSlot.set(result);
+            slot.set(result);
         });
         ctx.on('get', () => {
             if (!ctx.up) {
-                const value = persistentSlot.raw;
+                const value = slot.raw;
                 if (result !== value) {
                     result = value;
                     ctx.prev = ctx.cur;

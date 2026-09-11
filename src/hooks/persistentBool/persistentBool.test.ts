@@ -16,6 +16,8 @@ describe('persistentBool', () => {
       hub.use(() => {
         expect(get(state)).toBe(null)
       })
+
+      hub.destroy()
     })
 
     it('Can be cleared by null', () => {
@@ -32,6 +34,8 @@ describe('persistentBool', () => {
         expect(localStorage.getItem('state')).toBe(null)
         expect(localStorage.length).toBe(0)
       })
+
+      hub.destroy()
     })
   })
 
@@ -44,6 +48,8 @@ describe('persistentBool', () => {
         hub.use(() => {
           expect(get(state)).toBe(null)
         })
+
+        hub.destroy()
       })
 
       it('Can be cleared by null', () => {
@@ -60,6 +66,8 @@ describe('persistentBool', () => {
           expect(localStorage.getItem('state')).toBe(null)
           expect(localStorage.length).toBe(0)
         })
+
+        hub.destroy()
       })
     })
 
@@ -71,6 +79,8 @@ describe('persistentBool', () => {
         hub.use(() => {
           expect(get(state)).toBe(false)
         })
+
+        hub.destroy()
       })
     })
   })
@@ -97,6 +107,8 @@ describe('persistentBool', () => {
           expect(get(state)).toBe(false)
           expect(localStorage.getItem('state')).toBe('n')
         })
+
+        hub.destroy()
       })
     })
 
@@ -120,6 +132,8 @@ describe('persistentBool', () => {
           expect(get(state)).toBe(false)
           expect(sessionStorage.getItem('state')).toBe('-')
         })
+
+        hub.destroy()
       })
     })
   })
@@ -154,6 +168,8 @@ describe('persistentBool', () => {
       window.dispatchEvent(event)
 
       expect(log).toEqual([true, false])
+
+      hub.destroy()
     })
 
     it('Should listen pageshow event', () => {
@@ -178,6 +194,8 @@ describe('persistentBool', () => {
       window.dispatchEvent(event)
 
       expect(log).toEqual([true, false])
+
+      hub.destroy()
     })
   })
 })

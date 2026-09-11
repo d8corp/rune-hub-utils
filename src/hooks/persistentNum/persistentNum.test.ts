@@ -16,6 +16,8 @@ describe('persistentNum', () => {
       hub.use(() => {
         expect(get(state)).toBe(null)
       })
+
+      hub.destroy()
     })
 
     it('Can be cleared by null', () => {
@@ -32,6 +34,8 @@ describe('persistentNum', () => {
         expect(localStorage.getItem('state')).toBe(null)
         expect(localStorage.length).toBe(0)
       })
+
+      hub.destroy()
     })
   })
 
@@ -44,6 +48,8 @@ describe('persistentNum', () => {
         hub.use(() => {
           expect(get(state)).toBe(null)
         })
+
+        hub.destroy()
       })
 
       it('Can be cleared by null', () => {
@@ -60,6 +66,8 @@ describe('persistentNum', () => {
           expect(localStorage.getItem('state')).toBe(null)
           expect(localStorage.length).toBe(0)
         })
+
+        hub.destroy()
       })
     })
 
@@ -71,6 +79,8 @@ describe('persistentNum', () => {
         hub.use(() => {
           expect(get(state)).toBe(1)
         })
+
+        hub.destroy()
       })
     })
   })
@@ -96,6 +106,8 @@ describe('persistentNum', () => {
           expect(get(state)).toBe(1)
           expect(sessionStorage.getItem('state')).toBe('1')
         })
+
+        hub.destroy()
       })
     })
   })
@@ -130,6 +142,8 @@ describe('persistentNum', () => {
       window.dispatchEvent(event)
 
       expect(log).toEqual([2, 1])
+
+      hub.destroy()
     })
 
     it('Should listen pageshow event', () => {
@@ -154,6 +168,8 @@ describe('persistentNum', () => {
       window.dispatchEvent(event)
 
       expect(log).toEqual([2, 1])
+
+      hub.destroy()
     })
   })
 })
